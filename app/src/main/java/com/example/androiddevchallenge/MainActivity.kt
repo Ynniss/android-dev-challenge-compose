@@ -43,6 +43,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.data.Cat
 import com.example.androiddevchallenge.data.cats
 import com.example.androiddevchallenge.ui.theme.MyTheme
@@ -53,8 +58,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyApp {
-                MyScreenContent(cats)
+            MyTheme {
+                AppNavigation()
             }
         }
     }
@@ -76,12 +81,17 @@ fun MyTopAppBar() {
     )
 }
 
+
 @Composable
-fun MyApp(content: @Composable () -> Unit) {
-    MyTheme {
-        Column {
-            MyTopAppBar()
-            content()
+fun AppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "HomeScreen") {
+        composable("HomeScreen") {
+            HomeScreen(navController, cats)
+        }
+        composable("CatDetails") {
+            CatDetailsScreen()
         }
     }
 }
@@ -89,15 +99,17 @@ fun MyApp(content: @Composable () -> Unit) {
 @Preview
 @Composable
 fun DefaultPreview() {
-    MyApp {
-        MyScreenContent(cats)
+    MyTheme {
+        AppNavigation()
     }
 }
 
 @Composable
-fun MyScreenContent(cats: List<Cat>) {
+fun HomeScreen(navController: NavController, cats: List<Cat>) {
     Column {
+        MyTopAppBar()
         CatList(
+            navController,
             cats,
             Modifier
                 .weight(1f)
@@ -105,15 +117,23 @@ fun MyScreenContent(cats: List<Cat>) {
     }
 }
 
+@Composable
+fun CatDetailsScreen() {
+    Column {
+        MyTopAppBar()
+        Text(text = "Cat details")
+    }
+}
+
 
 @Composable
-fun CatCard(cat: Cat) {
+fun CatCard(navController: NavController, cat: Cat) {
     Card(
         modifier = Modifier
             .border(1.dp, Color.Transparent)
             .padding(16.dp)
-            .fillMaxWidth(),
-        //.clickable(onClick = ),
+            .fillMaxWidth()
+            .clickable(onClick = { navController.navigate("CatDetails") }),
         backgroundColor = MaterialTheme.colors.primaryVariant,
         shape = RoundedCornerShape(10.dp),
     ) {
@@ -125,8 +145,8 @@ fun CatCard(cat: Cat) {
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(150.dp)
-                    .border(8.dp, MaterialTheme.colors.primaryVariant, CircleShape).
-                    fillMaxWidth()
+                    .border(8.dp, MaterialTheme.colors.primaryVariant, CircleShape)
+                    .fillMaxWidth()
             )
 
             Text(
@@ -140,10 +160,10 @@ fun CatCard(cat: Cat) {
 }
 
 @Composable
-fun CatList(cats: List<Cat>, modifier: Modifier) {
+fun CatList(navController: NavController, cats: List<Cat>, modifier: Modifier) {
     LazyColumn(modifier = modifier) {
         itemsIndexed(items = cats) { index, cat ->
-            CatCard(cat)
+            CatCard(navController, cat)
         }
     }
 }
