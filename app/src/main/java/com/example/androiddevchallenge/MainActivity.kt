@@ -124,7 +124,7 @@ fun CatCard(cat: Cat) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(200.dp)
+                    .size(150.dp)
                     .border(8.dp, MaterialTheme.colors.primaryVariant, CircleShape).
                     fillMaxWidth()
             )
@@ -132,7 +132,7 @@ fun CatCard(cat: Cat) {
             Text(
                 text = cat.name,
                 modifier = Modifier
-                    .padding(24.dp),
+                    .padding(48.dp),
                 style = MaterialTheme.typography.h5
             )
         }
