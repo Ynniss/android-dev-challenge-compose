@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,15 +40,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigate
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.*
 import com.example.androiddevchallenge.data.Cat
 import com.example.androiddevchallenge.data.cats
 import com.example.androiddevchallenge.ui.theme.MyTheme
@@ -90,8 +92,17 @@ fun AppNavigation() {
         composable("HomeScreen") {
             HomeScreen(navController, cats)
         }
-        composable("CatDetails") {
-            CatDetailsScreen()
+        composable(
+            "CatDetails/{catName}/{catDescription}",
+            arguments = listOf(
+                navArgument("catName") { type = NavType.StringType },
+                navArgument("catDescription") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            CatDetailsScreen(
+                backStackEntry.arguments?.getString("catName")!!,
+                backStackEntry.arguments?.getString("catDescription")!!
+            )
         }
     }
 }
@@ -118,10 +129,49 @@ fun HomeScreen(navController: NavController, cats: List<Cat>) {
 }
 
 @Composable
-fun CatDetailsScreen() {
-    Column {
+fun CatDetailsScreen(catName: String, catDescription: String) {
+    Column() {
         MyTopAppBar()
-        Text(text = "Cat details")
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = catName, style = MaterialTheme.typography.h2)
+            Spacer(modifier = Modifier.height(8.dp))
+            Image(
+                painter = painterResource(id = getCatImage(catName)),
+                contentDescription = "a cute cat",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(300.dp)
+                    .border(8.dp, MaterialTheme.colors.primaryVariant, CircleShape)
+                    .fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Description",
+                textDecoration = TextDecoration.Underline,
+                style = MaterialTheme.typography.h4
+            )
+            Text(
+                text = catDescription,
+                textAlign = TextAlign.Justify,
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(4.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colors.secondary
+                )
+            ) {
+                Text("Adopt me", style = MaterialTheme.typography.h5)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
     }
 }
 
@@ -133,14 +183,14 @@ fun CatCard(navController: NavController, cat: Cat) {
             .border(1.dp, Color.Transparent)
             .padding(16.dp)
             .fillMaxWidth()
-            .clickable(onClick = { navController.navigate("CatDetails") }),
+            .clickable(onClick = { navController.navigate("CatDetails/${cat.name}/${cat.description}") }),
         backgroundColor = MaterialTheme.colors.primaryVariant,
         shape = RoundedCornerShape(10.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = painterResource(id = getCatImage(cat.name)),
-                contentDescription = "avatar",
+                contentDescription = "a cute cat",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(CircleShape)
