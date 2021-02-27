@@ -18,44 +18,101 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.ui.theme.typography
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyTheme {
-                MyApp()
+            MyApp {
+                MyScreenContent()
             }
         }
     }
 }
 
-// Start building your app here!
 @Composable
-fun MyApp() {
-    Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
-    }
-}
-
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun LightPreview() {
+fun MyApp(content: @Composable () -> Unit) {
     MyTheme {
-        MyApp()
+        TopAppBar() {
+            
+        }
+        content()
     }
 }
 
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
+@Preview
 @Composable
-fun DarkPreview() {
-    MyTheme(darkTheme = true) {
-        MyApp()
+fun DefaultPreview() {
+    MyApp {
+        MyScreenContent()
+    }
+}
+
+@Composable
+fun MyScreenContent() {
+    val countState = remember { mutableStateOf(0) }
+    val names: List<String> = List(100) { "Yo le rap !" }
+    Column(modifier = Modifier.fillMaxHeight()) {
+        NameList(
+            names,
+            Modifier
+                .weight(1f)
+                .padding(20.dp)
+        )
+        Counter(countState.value, updateCount = { newCount -> countState.value = newCount })
+    }
+}
+
+
+@Composable
+fun Greeting(value: String) {
+    var isSelected by remember { mutableStateOf(false) }
+    val backgroundColor by animateColorAsState(if (isSelected) Color.Red else Color.Transparent)
+
+    Text(
+        text = "VALEUR: $value",
+        color=MaterialTheme.colors.primary,
+        modifier = Modifier
+            .padding(24.dp)
+            .background(color = backgroundColor)
+            .clickable(onClick = { isSelected = !isSelected })
+    )
+}
+
+@Composable
+fun NameList(names: List<String>, modifier: Modifier) {
+    LazyColumn(modifier = modifier) {
+        items(items = names) { name ->
+            Greeting(name)
+            Divider(color = Color.Black)
+        }
+    }
+}
+
+@Composable
+fun Counter(count: Int, updateCount: (Int) -> Unit) {
+    Button(onClick = { updateCount(count + 1) }) {
+        Text("I've been clicked ${count} times")
     }
 }
