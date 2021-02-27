@@ -37,6 +37,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.data.Cats
+import com.example.androiddevchallenge.data.cats
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.typography
 
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                MyScreenContent()
+                MyScreenContent(cats)
             }
         }
     }
@@ -81,54 +83,28 @@ fun MyApp(content: @Composable () -> Unit) {
 @Composable
 fun DefaultPreview() {
     MyApp {
-        MyScreenContent()
+        MyScreenContent(cats)
     }
 }
 
 @Composable
-fun MyScreenContent() {
-    val countState = remember { mutableStateOf(0) }
-    val names: List<String> = List(100) { "Yo le rap !" }
+fun MyScreenContent(cats: List<Cats>) {
     Column {
-        NameList(
-            names,
+        CatList(
+            cats,
             Modifier
                 .weight(1f)
-                .padding(20.dp)
         )
-        Counter(countState.value, updateCount = { newCount -> countState.value = newCount })
     }
 }
 
 
 @Composable
-fun Greeting(value: String) {
-    var isSelected by remember { mutableStateOf(false) }
-    val backgroundColor by animateColorAsState(if (isSelected) Color.Red else Color.Transparent)
-
-    Text(
-        text = "VALEUR: $value",
-        color = MaterialTheme.colors.primary,
-        modifier = Modifier
-            .padding(24.dp)
-            .background(color = backgroundColor)
-            .clickable(onClick = { isSelected = !isSelected })
-    )
-}
-
-@Composable
-fun NameList(names: List<String>, modifier: Modifier) {
+fun CatList(cats: List<Cats>, modifier: Modifier) {
     LazyColumn(modifier = modifier) {
-        items(items = names) { name ->
-            Greeting(name)
+        items(items = cats) { cat ->
+            Text(text = cat.name)
             Divider(color = Color.Black)
         }
-    }
-}
-
-@Composable
-fun Counter(count: Int, updateCount: (Int) -> Unit) {
-    Button(onClick = { updateCount(count + 1) }) {
-        Text("I've been clicked ${count} times")
     }
 }
