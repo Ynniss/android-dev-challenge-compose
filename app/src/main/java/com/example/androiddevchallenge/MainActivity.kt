@@ -25,6 +25,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -102,9 +103,16 @@ fun MyScreenContent(cats: List<Cats>) {
 @Composable
 fun CatList(cats: List<Cats>, modifier: Modifier) {
     LazyColumn(modifier = modifier) {
-        items(items = cats) { cat ->
-            Text(text = cat.name)
-            Divider(color = Color.Black)
+        itemsIndexed(items = cats) { index, cat ->
+            Image(
+                painter= painterResource(id =  getResources),
+                contentDescription = "A cute cat"
+            )
+
+            Text(text = cat.name, modifier = Modifier.padding(24.dp))
+            if (index < (cats.size - 1)) {
+                Divider(color = Color.Black)
+            }
         }
     }
 }
