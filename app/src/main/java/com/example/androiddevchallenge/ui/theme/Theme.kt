@@ -15,13 +15,10 @@
  */
 package com.example.androiddevchallenge.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-
 
 private val LightColorPalette = lightColors(
     primary = blueGray800,
@@ -30,7 +27,6 @@ private val LightColorPalette = lightColors(
     secondaryVariant = deepOrange500Dark,
     onPrimary = Color.White,
     onSecondary = Color.White
-
 
         /* Other default colors to override
     background = Color.White,
@@ -43,7 +39,7 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun MyTheme(content: @Composable() () -> Unit) {
+fun MyTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colors = LightColorPalette,
         typography = typography,
