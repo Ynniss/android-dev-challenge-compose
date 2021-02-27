@@ -25,7 +25,9 @@ import androidx.compose.ui.graphics.Color
 
 private val LightColorPalette = lightColors(
     primary = blueGray800,
+    primaryVariant = blueGray800Dark,
     secondary = deepOrange500,
+    secondaryVariant = deepOrange500Dark,
     onPrimary = Color.White,
     onSecondary = Color.White
 
