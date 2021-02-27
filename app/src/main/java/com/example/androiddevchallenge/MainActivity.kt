@@ -38,10 +38,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.androiddevchallenge.data.Cats
+import com.example.androiddevchallenge.data.Cat
 import com.example.androiddevchallenge.data.cats
 import com.example.androiddevchallenge.ui.theme.MyTheme
-import com.example.androiddevchallenge.ui.theme.typography
+import com.example.androiddevchallenge.helpers.CatHelper.getCatImage
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +89,7 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun MyScreenContent(cats: List<Cats>) {
+fun MyScreenContent(cats: List<Cat>) {
     Column {
         CatList(
             cats,
@@ -101,15 +101,20 @@ fun MyScreenContent(cats: List<Cats>) {
 
 
 @Composable
-fun CatList(cats: List<Cats>, modifier: Modifier) {
+fun catCard(cat: Cat) {
+    Image(
+        painter= painterResource(id =  getCatImage(cat.name)),
+        contentDescription = "A cute cat"
+    )
+
+    Text(text = cat.name, modifier = Modifier.padding(24.dp))
+}
+
+@Composable
+fun CatList(cats: List<Cat>, modifier: Modifier) {
     LazyColumn(modifier = modifier) {
         itemsIndexed(items = cats) { index, cat ->
-            Image(
-                painter= painterResource(id =  getResources),
-                contentDescription = "A cute cat"
-            )
-
-            Text(text = cat.name, modifier = Modifier.padding(24.dp))
+            catCard(cat)
             if (index < (cats.size - 1)) {
                 Divider(color = Color.Black)
             }

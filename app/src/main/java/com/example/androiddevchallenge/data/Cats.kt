@@ -1,54 +1,47 @@
 package com.example.androiddevchallenge.data
 
-data class Cats(val name: String, val imageSlug: String, val description: String)
+data class Cat(val name: String, val description: String)
 
 
-val cats: List<Cats> = listOf(
-    Cats(
+val cats: List<Cat> = listOf(
+    Cat(
         "Brady",
-        "brady",
         "Our Aurora-Naperville cats and kittens are back in the Petsmart locations - AND at Pet Supplies Plus in north..."
     ),
-    Cats(
+    Cat(
         "Teddy",
-        "brady",
         "Meet Teddy, he is one of the sweetest little guys ever. He is shy at first but once he trust..."
     ),
-    Cats(
+    Cat(
         "Truffles",
-        "brady",
         "TRUFFLES is a sweet, loving girl! She is gentle and affectionate, and loves to be held and petted. She has..."
     ),
-    Cats(
+    Cat(
         "Kasha",
-        "brady",
         "Kasha is a love, she is a great companion. Likes to be near you ! She would love a screened porch...."
     ),
-    Cats(
+    Cat(
         "Shady lady",
-        "brady",
         "Shady Lady is the sweetest purriest most loving girl you could ever hope to meet.  Unfortunately she is both fiv..."
     ),
-    Cats(
+    Cat(
         "Jubal",
-        "brady",
         "My name is Jubal and I just arrived with my brother Julian and sister Juniper.  I was a little tired..."
     ),
-    Cats(
+    Cat(
         "Gabby",
-        "brady", "My sister, my momma and I just got here.  Check back soon to read all about me!"
+        "My sister, my momma and I just got here.  Check back soon to read all about me!"
     ),
-    Cats(
+    Cat(
         "Chancy",
-        "brady", "My brother Chancelor and I just got here.  Check back soon to hear all about me!"
+        "My brother Chancelor and I just got here.  Check back soon to hear all about me!"
     ),
-    Cats(
+    Cat(
         "Chancelor",
-        "brady", "Chancelor is just waiting for you. He will not miss you..."
+        "Chancelor is just waiting for you. He will not miss you..."
     ),
-    Cats(
+    Cat(
         "T'Challa",
-        "brady",
         "T'Challa just got here - check back soon to hear all about me!  My best friend Nicholas also just arrived..."
     ),
 
