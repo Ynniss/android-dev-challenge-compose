@@ -51,13 +51,29 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+
+@Composable
+fun MyTopAppBar() {
+    TopAppBar(
+        elevation = 12.dp,
+        title = { Text(text = "Catdopt") },
+        navigationIcon = {
+            Image(
+                painter = painterResource(R.drawable.catdopt),
+                contentDescription = "app Icon",
+                modifier = Modifier.padding(10.dp)
+            )
+        }
+    )
+}
+
 @Composable
 fun MyApp(content: @Composable () -> Unit) {
     MyTheme {
-        TopAppBar() {
-            
+        Column {
+            MyTopAppBar()
+            content()
         }
-        content()
     }
 }
 
@@ -73,7 +89,7 @@ fun DefaultPreview() {
 fun MyScreenContent() {
     val countState = remember { mutableStateOf(0) }
     val names: List<String> = List(100) { "Yo le rap !" }
-    Column(modifier = Modifier.fillMaxHeight()) {
+    Column {
         NameList(
             names,
             Modifier
@@ -92,7 +108,7 @@ fun Greeting(value: String) {
 
     Text(
         text = "VALEUR: $value",
-        color=MaterialTheme.colors.primary,
+        color = MaterialTheme.colors.primary,
         modifier = Modifier
             .padding(24.dp)
             .background(color = backgroundColor)
