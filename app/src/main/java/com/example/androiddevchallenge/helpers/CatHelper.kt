@@ -2,10 +2,10 @@ package com.example.androiddevchallenge.helpers
 
 import com.example.androiddevchallenge.R
 
-class CatHelper {
+object CatHelper {
     fun getCatImage(catName: String): Int {
         when (catName) {
-            "brady" -> return R.drawable.brady
+            "Brady" -> return R.drawable.brady
             "Teddy" -> return R.drawable.teddy
             "Truffles" -> return R.drawable.truffles
             "Kasha" -> return R.drawable.kasha
