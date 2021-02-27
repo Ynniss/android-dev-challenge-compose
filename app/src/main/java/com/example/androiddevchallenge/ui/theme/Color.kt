@@ -18,9 +18,6 @@ package com.example.androiddevchallenge.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val blueGray800 = Color(0xFF37474f)
-val blueGray800Light = Color(0xFF62727b)
 val blueGray800Dark = Color(0xFF102027)
 val deepOrange500 = Color(0xFFff5722)
-val deepOrange500Light = Color(0xFff8a50)
 val deepOrange500Dark = Color(0xFFc41c00)
-
